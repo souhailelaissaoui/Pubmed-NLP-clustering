@@ -5,3 +5,8 @@ numpy
 random
 sklearn
 scipy
+gensim
+re
+string
+collections
+nltk

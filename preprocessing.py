@@ -1,17 +1,4 @@
 ### Imports
-
-
-
-### Constants
-
-
-
-### Core functions
-
-
-
-### Execution flow (to be moved to main)
-
 import pandas as pd
 import re
 import string
@@ -24,12 +11,14 @@ from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
-
 nltk.download('stopwords')
 nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('averaged_perceptron_tagger')
 
+
+
+### Constants
 pos_lem = {
     'NN': 'n',
     'NNS': 'n',
@@ -43,7 +32,14 @@ pos_lem = {
     'VBZ': 'v',
 }
 
-def cleaning_filter(text): 
+
+### Core functions
+def cleaning_filter(text):
+    '''
+
+    :param text:
+    :return:
+    '''
   try:# A REFAIRE
     if "StringElement" in text: # A REVOIR SI EUX L'ON GARDE
       text = "badformat"
@@ -61,6 +57,13 @@ def cleaning_filter(text):
   return True
 
 def text_preprocessing(text, word_reduction='lemmatization', pos_lem=pos_lem):
+    '''
+
+    :param text:
+    :param word_reduction:
+    :param pos_lem:
+    :return:
+    '''
   # To lower case
   text = text.lower()
   
@@ -99,6 +102,11 @@ def text_preprocessing(text, word_reduction='lemmatization', pos_lem=pos_lem):
 
 
 def filter_out_to_few(corpus):
+    '''
+
+    :param corpus:
+    :return:
+    '''
   #Remove words that appear less than 5 time in the whole corpus
   words = list(np.concatenate(corpus.values))
   word_count = dict(Counter(words))
@@ -116,16 +124,26 @@ def filter_out_to_few(corpus):
   
   return corpus
 
-  import numpy as np
-
-
 def w2v_get_vector(word):
+    '''
+
+    :param word:
+    :return:
+    '''
   try:
     return model.get_vector(word)
   except Exception as e:
     return None
 
 def vectorisation_w2v(tokens, agg='mean', model=None, word_coefficients=None):
+    '''
+
+    :param tokens:
+    :param agg:
+    :param model:
+    :param word_coefficients:
+    :return:
+    '''
   tokens = list(map(w2v_get_vector, tokens))
   #tokens = list(map(lambda x: testtt[x], tokens))
   tokens = list(filter(lambda x: str(x) != 'None', tokens))
@@ -138,15 +156,15 @@ def vectorisation_w2v(tokens, agg='mean', model=None, word_coefficients=None):
     tokens = np.sum(np.array(map(w2v_get_vector(tokens)*word_coefficients[x] , tokens)), axis=0)
   return tokens
 
-model2 = gensim.models.Word2Vec(corpus['text'].values, size=300, window=5, min_count=5, workers=4)
-
-model2.train(corpus['text'].values, total_examples=corpus['text'].shape[0], epochs=500)
-print("heart")
-print(model2.wv.most_similar("heart", topn=10))
-print("therapeutic")
-print(model2.wv.most_similar("therapeutic", topn=10))
 
 def vectorize_corpus(corpus, methods=["w2v", "tfidf"], model = model2):
+    '''
+
+    :param corpus:
+    :param methods:
+    :param model:
+    :return:
+    '''
   corpus = corpus.copy()
   if "tfidf" in methods:
     vectorizer = TfidfVectorizer(
@@ -169,6 +187,19 @@ def vectorize_corpus(corpus, methods=["w2v", "tfidf"], model = model2):
         lambda x: vectorisation_w2v_tfidf(x, agg='tfidf', model=model)
     )
   return corpus
+
+
+
+
+
+  ### Execution flow (to be moved to main)
+model2 = gensim.models.Word2Vec(corpus['text'].values, size=300, window=5, min_count=5, workers=4)
+
+model2.train(corpus['text'].values, total_examples=corpus['text'].shape[0], epochs=500)
+print("heart")
+print(model2.wv.most_similar("heart", topn=10))
+print("therapeutic")
+print(model2.wv.most_similar("therapeutic", topn=10))
 
 
   %%time

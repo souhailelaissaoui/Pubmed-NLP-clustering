@@ -4,7 +4,7 @@ import random
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.stats import ttest_ind
-
+from gensim.models import KeyedVectors, Word2Vec
 
 
 
@@ -12,6 +12,7 @@ from scipy.stats import ttest_ind
 tag_column = 'tags'
 tokens_column = 'text'
 title_column = 'Title'
+category_column = 'category'
 train_test_split = 0.8
 pvalue_threshold  = 0.05
 
@@ -88,9 +89,32 @@ def relevance_ratio(row):
     return row
 
 
-def evaluate_relevance(df):
-    df.apply(relevance_ratio, axis=1)
-    df.apply(pertinence_category)
+def relevance_category(row, model):
+    word_vectors = model.wv
+    category = row[category_column]
+    number_tags = len(row[tag_column])
+
+    for tag in row[tag_column]:
+
+        try:
+            cum_score += word_vectors.n_similarity([tag], [category])
+        except:
+            print("category word does not appear in all texts combined")
+            number_tags -= 1
+            continue
+
+    row['mean_score'] = cum_score / number_tags
+
+    return row
+
+
+def evaluate_pertinence(df, model):
+    df = df.apply(relevance_ratio, axis=1)
+    df = df.apply(lambda row: relevance_category(row, model), axis=1)
+
+    return df
+
+
 
 ### Execution flow
 #M1:
@@ -101,4 +125,7 @@ df, df_test = split_train_test(df)
 #unique_tags = # todo: add Gautier function
 evaluate_separation(tag_column, unique_tags)
 
+#M3:
+# model = # todo: add Adrien model w2v
+evaluate_pertinence(df, model=model)
 
