@@ -4,13 +4,19 @@
 
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-
 ### Constants
+
+parameters = {"method_choice": ["kmeans_model", "kmeans_model", "kmeans_model", "kmeans_model", "kmeans_model"],
+              "vector_choice": ["tfidf", "tfidf", "tfidf", "tfidf", "tfidf"],
+              "tag_choice": ["centroid", "centroid", "centroid", "centroid", "centroid"]}
+column_words = 'text'
+# TODO
+nb_tags = 1
+
 
 ### Class definition
 
@@ -97,7 +103,7 @@ def inception_clustering_model(df,
                                            clusters_article_ID,
                                            df_index,
                                            depth)
-        else :
+        else:
             raise AttributeError("tag_choice in method_parameter not implemented")
 
         # For each cluster, store the information in a new node, add it to the local node, and
@@ -123,11 +129,214 @@ def inception_clustering_model(df,
     if depth == 0:
         return (local_node)
 
-### Execution flow (to be moved to main)
 
+def get_index_list(k_optim, labels, articles_ID_indexes):
+    """
+    Get the output of Kmeans model and convert it into list of IDs (article IDs or index of the df)
+    :param k_optim: nb of clusters from Kmeans
+    :param labels: list of the associated clusters for each document
+    :param articles_ID_indexes: list of the article id (with same index as the df)
+    :return: both article id list and df index as list of cluster lists
+    """
+    dataframe_index = [[i for i, cluster in enumerate(labels) if cluster == j] for j in np.arange(k_optim)]
+    article_id_list = [[articles_ID_indexes[i] for i in j] for j in dataframe_index]
+    return article_id_list, dataframe_index
+
+
+def cluster_model(df, method_choice, vector_choice, local_indexes, k_max, k_min=2):
+    """
+    On one hand :
+    kmeans model that thakes a array of vector (a vector is a document) from the recursive approach
+    and tries the different kmeans models up to k_max clusters
+    Returns indexes of the clusters and number of cluster chosen
+
+    On the other hand :
+    :param df: global df
+    :param method_choice: kmeans or other
+    :param vector_choice: tfidf or w2vec #TODO
+    :param local_indexes: list of article_IDs to consider as a main node in which to find clusters
+    :param k_max: maximal number of clusters
+    :param k_min: minimal number of clusters
+    :return: k_optim, article_id_list, dataframe_index for next clusters
+    """
+    # Kmean implementation
+    if method_choice == "kmeans_model":
+        silhouete_scores = []
+        # Each row of the matrix is a document and each column a dimension of its vector
+        vector_matrix = np.array(df.loc[df.article_ID.isin(local_indexes), :].tfidf.tolist())
+        # Finding the best number of cluster
+        for k in np.arange(k_min, k_max + 1):
+            kmeans = KMeans(n_clusters=k).fit(vector_matrix)
+            labels = kmeans.labels_
+            # To avoid errors with only one cluster (potentially removed with a cleaned dataset)
+            if sum(labels) > 0:
+                silhouete_scores.append(silhouette_score(vector_matrix, labels, metric='euclidean'))
+            else:
+                silhouete_scores.append(0)
+        # If no k is relevant, all silhouete scores are null, then we skip that node
+        if sum(silhouete_scores) > 0:
+            k_optim = np.argmax(silhouete_scores) + k_min
+            kmeans = KMeans(n_clusters=k_optim).fit(vector_matrix)
+            labels = kmeans.labels_
+            # to match article ids with kmean output
+            article_ID_indexes = df.loc[df.article_ID.isin(local_indexes), :].article_ID.tolist()
+
+            article_id_list, dataframe_index = get_index_list(k_optim, labels, article_ID_indexes)
+        else:
+            return -1, [], []
+
+    elif method_choice == "dbscan_model":
+        return ()
+
+    else:
+        raise AttributeError("Model choice is not available, check method parameters")
+
+    return k_optim, article_id_list, dataframe_index
+
+
+# TODO
+def dbscan_model():
+    return ()
+
+
+def get_label_from_tfidf(df, list_node, list_clusters, df_index, nb_tags=nb_tags, column_words=column_words):
+    """
+    Selects the tokens from the corpus at the node.
+    Computes the tfidf score for each token and document of the corpus within the node.
+    Sums up the scores for each token from documents from the same cluster.
+    And returns the tokens with the greatest aggregated tfidf for each cluster.
+    :param df: global df
+    :param list_node: article IDs of the father node
+    :param list_clusters: clusters with their article ID
+    :param df_index: clusters with their index in the df
+    :param nb_tags: nb of tags per cluster in the tfidf method
+    :param column_words: name of the column containing the whole text
+    :return:
+    """
+    # Get the documents in the corpus of interest
+    tokens_node = df.loc[df.article_ID.isin(list_node), column_words]
+
+    # Create the tf-idf feature matrix
+    # vectorizer = TfidfVectorizer()
+
+    vectorizer = TfidfVectorizer(
+        tokenizer=lambda x: x,  # already tokenized
+        preprocessor=lambda x: x,  # already tokenized
+        max_features=500,
+        token_pattern=None
+    )
+
+    feature_matrix = vectorizer.fit_transform(tokens_node)
+
+    # Get the words
+    tfidf_names = vectorizer.get_feature_names()
+
+    labels_clusters = []
+
+    for cluster in df_index:
+        tmp = feature_matrix[cluster, :]
+
+        # Get the greatest aggregated tfidf
+        tfidf_scores = tmp.mean(axis=0)
+        # label_index = np.argsort(tfidf_scores)[-nb_tags:].item(nb_tags-1) #Problem TO DO
+        label_index = tfidf_scores.argmax()
+
+        # Get the word associated with the greated tfidf
+        label = tfidf_names[label_index]
+        labels_clusters.append([label])
+
+    return labels_clusters
+
+
+def get_label_from_centroid(df,
+                            df_for_centroid,
+                            list_node,
+                            list_clusters,
+                            df_index,
+                            depth):
+    """
+    Selects the tokens from the corpus at the node.
+    Computes the vector mean.
+    And returns the tokens with the greatest aggregated tfidf for each cluster.
+    :param df: global df
+    :param df_for_centroid: df with all tfidf
+    :param list_node: article IDs of the father node
+    :param list_clusters: clusters with their article ID
+    :param df_index: clusters with their index in the df
+    :param depth: actual depth
+    :return:
+    """
+    labels_clusters = []
+    for cluster in df_index:
+        tmp = df_for_centroid.loc[cluster, :]
+
+        # Get the greatest aggregated tfidf
+        tfidf_scores = tmp.mean(axis=0)
+        # label = tfidf_scores.argmax()
+        label = [col[i] for i in np.argsort(-tfidf_scores)[0:(depth + 1)].to_list()]
+        labels_clusters.append(label)
+
+    return labels_clusters
+
+
+def get_set_of_all_tags(tree_result):
+    """
+    Return the list of all the tags of a tree
+    :param tree_result: result of the main architecture function
+    :return: the whole list of tags (unique)
+    """
+    """
+    Return the list of all the tags of a tree
+    """
+    res = []
+
+    def add_tag(local_node):
+        for local_tag in local_node.tag:
+            res.append(local_tag)
+        for child in local_node.children_clusters:
+            add_tag(child)
+
+    add_tag(tree_result)
+    return set(res)
+
+
+def update_df_with_tags(df, tree_result):
+    size_df = len(df)
+    tags = [[]] * size_df
+    df["tags"] = tags
+
+    def add_tag_to_list(node):
+        local_tag_list = node.tag
+        local_list = node.index_list
+        for local_article_ID in local_list:
+            df.loc[df.article_ID == local_article_ID, "tags"] = df.loc[
+                                                                    df.article_ID == local_article_ID].tags + local_tag_list
+        for children in node.children_clusters:
+            add_tag_to_list(children)
+
+    add_tag_to_list(tree_result)
+    for i in df.index:
+        df.at[i, "tags"] = list(set(df.loc[i, "tags"]))
+    return df
+
+
+
+### Execution flow (to be moved to main)
 
 ## Data
 # TODO
 df = pd.read_json("corpus4.json")
 col = df.tfidf_features[0]
+article_ID_list_racine = df.article_ID.to_list()
 df_for_centroid = get_df_for_centroid(df)
+
+## Test
+model_res = inception_clustering_model(df=df,
+                                       df_for_centroid=df_for_centroid,
+                                       article_ID_list=article_ID_list_racine,
+                                       max_depth=5,
+                                       depth=0,
+                                       parameters=parameters,
+                                       max_cluster_by_step=5,
+                                       min_size_of_a_cluster=11,
+                                       local_node=MetaCluster([], ["Root"]))
