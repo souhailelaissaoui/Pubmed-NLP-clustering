@@ -17,7 +17,7 @@ pvalue_threshold  = 0.05
 ### Core functions
 
 # Method 1: Robustness
-def train_test_split(df, train_test_split=0.8):
+def get_robustness_evaluation(df, train_test_split=0.8):
     '''
     Create two dataframes: one with 100% of the tokens and other one with a percentage of the data
     '''
@@ -53,14 +53,13 @@ def get_seperation_evaluation(tag_column, unique_tags, pvalue_threshold=0.05):
 
 
 
-
 # Method 3: Relevance
 
 
 
 ### Execution flow
 #M1:
-train_test_split(df)
+get_robustness_evaluation(df)
 
 #M2:
 unique_tags = # todo: add Gautier function
