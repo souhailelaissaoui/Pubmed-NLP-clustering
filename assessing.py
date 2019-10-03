@@ -62,7 +62,7 @@ def get_seperation_evaluation(tag_column, unique_tags, pvalue_threshold=0.05):
 df, df_test = split_train_test(df)
 
 #M2:
-unique_tags = # todo: add Gautier function
+#unique_tags = # todo: add Gautier function
 get_seperation_evaluation(tag_column, unique_tags)
 
 
