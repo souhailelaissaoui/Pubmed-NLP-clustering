@@ -326,7 +326,7 @@ def update_df_with_tags(df, tree_result):
 ## Data
 # TODO
 df = pd.read_json("corpus4.json")
-col = df.tfidf_features[0]
+col = df.tfidf_features[0] #todo: à mettre en argument
 article_ID_list_racine = df.article_ID.to_list()
 df_for_centroid = get_df_for_centroid(df)
 

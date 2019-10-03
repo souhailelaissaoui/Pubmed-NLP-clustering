@@ -108,12 +108,11 @@ def relevance_category(row, model):
     return row
 
 
-def evaluate_pertinence(df, model):
+def evaluate_relevance(df, model):
     df = df.apply(relevance_ratio, axis=1)
     df = df.apply(lambda row: relevance_category(row, model), axis=1)
 
     return df
-
 
 
 ### Execution flow
