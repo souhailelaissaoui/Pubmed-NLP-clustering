@@ -10,6 +10,7 @@ from scipy.stats import ttest_ind
 train_test_split = 0.8
 tag_column = 'tags'
 pvalue_threshold  = 0.05
+tokens_col = 'text'
 
 
 
@@ -17,15 +18,14 @@ pvalue_threshold  = 0.05
 ### Core functions
 
 # Method 1: Robustness
-def get_robustness_evaluation(df, train_test_split=0.8):
+def split_train_test(df, train_test_split=0.8):
     '''
     Create two dataframes: one with 100% of the tokens and other one with a percentage of the data
     '''
+    df_test = df.copy()
+    df_test[tokens_col] = df.apply(lambda x: random.sample(x[tokens_col],round(len(x[tokens_col]) * train_test_split)), axis=1)
 
-    # Compute
-    df['test_tokens'] = df.apply(lambda x: random.sample(x[tokens_col],round(len(x[tokens_col]) * train_test_split)), axis=1)
-
-    return df
+    return df, df_test
 
 
 # Method 2: Separation
@@ -59,7 +59,7 @@ def get_seperation_evaluation(tag_column, unique_tags, pvalue_threshold=0.05):
 
 ### Execution flow
 #M1:
-get_robustness_evaluation(df)
+df, df_test = split_train_test(df)
 
 #M2:
 unique_tags = # todo: add Gautier function
