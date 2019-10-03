@@ -303,21 +303,23 @@ def get_set_of_all_tags(tree_result):
 def update_df_with_tags(df, tree_result):
     size_df = len(df)
     tags = [[]] * size_df
-    df["tags"] = tags
 
     def add_tag_to_list(node):
         local_tag_list = node.tag
         local_list = node.index_list
         for local_article_ID in local_list:
-            df.loc[df.article_ID == local_article_ID, "tags"] = df.loc[
-                                                                    df.article_ID == local_article_ID].tags + local_tag_list
+            list_id = df.loc[df.article_ID == local_article_ID].index.tolist()[0]
+            tags[list_id] = tags[list_id] + local_tag_list
         for children in node.children_clusters:
             add_tag_to_list(children)
 
     add_tag_to_list(tree_result)
+
+    df["tags"] = tags
+
     for i in df.index:
-        df.at[i, "tags"] = list(set(df.loc[i, "tags"]))
-    return df
+        df.at[i, "tags"] = list(df.loc[i, "tags"])
+    return (df)
 
 
 
@@ -340,3 +342,5 @@ model_res = inception_clustering_model(df=df,
                                        max_cluster_by_step=5,
                                        min_size_of_a_cluster=11,
                                        local_node=MetaCluster([], ["Root"]))
+
+update_df_with_tags(df, model_res)
