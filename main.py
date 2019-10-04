@@ -5,10 +5,14 @@ from modelling import main_modelling
 from assessing import main_assessing
 
 #Constants
-parameters = {"method_choice": ["kmeans_model", "kmeans_model", "kmeans_model", "kmeans_model", "kmeans_model"],
-              "vector_choice": ["tfidf", "tfidf", "tfidf", "tfidf", "tfidf"],
-              "tag_choice": ["tfidf", "tfidf", "tfidf", "tfidf", "tfidf"],
-              "max_depth": 5,
+method = "kmeans_model"
+vector = "tfidf"
+tag_choice = "centroid"
+
+parameters = {"method_choice": [method]*8,
+              "vector_choice": [vector]*8,
+              "tag_choice": [tag_choice]*8,
+              "max_depth": 8,
               "max_cluster_by_step": 8,
               "min_size_of_a_cluster": 11}
 
