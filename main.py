@@ -1,4 +1,5 @@
 #from scrapping import main_scrapping
+from loading import main_loading
 from preprocessing import apply_preprocessing
 from modelling import main_modelling
 from assessing import main_assessing
@@ -12,9 +13,7 @@ parameters = {"method_choice": ["kmeans_model", "kmeans_model", "kmeans_model", 
 
 
 #Load the corpus
-#corpus_scrapped = main_scrapping(apply_scrapping=False)
-
-corpus_scrapped = pd.read_csv("./data/corpus.csv")
+corpus_scrapped = main_loading(run_loading=False)
 
 #Load the preprocessed data
 corpus = apply_preprocessing(run_preprocessing=False)

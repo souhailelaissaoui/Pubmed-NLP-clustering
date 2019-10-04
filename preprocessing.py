@@ -284,7 +284,7 @@ def apply_preprocessing(run_preprocessing=False):
         ], model=model)
         prev_time = measure_time_step(prev_time)  # Time
 
-        corpus_prep.to_csv("./data/preprocessed_corpus.json")
+        corpus_prep.to_json("./data/preprocessed_corpus.zip")
     else:
-        corpus_prep = pd.read_json("./data/preprocessed_corpus.json")
+        corpus_prep = pd.read_json("./data/preprocessed_corpus.zip")
     return corpus_prep

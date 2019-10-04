@@ -22,28 +22,31 @@ categories = ['cancérologie', 'cardiologie', 'gastro',
 
 
 ###Main function
-def main_loading():
-    # call the function collect_data to get the abstracts
-    abstracts = collect_data(categories)
+def main_loading(run_loading=False):
+    if run_loading:
+        # call the function collect_data to get the abstracts
+        abstracts = collect_data(categories)
 
-    # standardize abstracts
-    abstracts['text_standardized'] = abstracts.apply(lambda row: concat_structured_abstracts(row['text'])
-                                               if row['structured'] == 1 else row['text'], axis=1)
+        # standardize abstracts
+        abstracts['text_standardized'] = abstracts.apply(lambda row: concat_structured_abstracts(row['text'])
+                                                   if row['structured'] == 1 else row['text'], axis=1)
 
-    # concatenate keywords per abstract.
-    abstracts['list_keywords'] = abstracts.apply(lambda row: concat_keywords(row['Keywords'])
-                                             if len(row['Keywords']) > 0 else row['Keywords'], axis=1)
+        # concatenate keywords per abstract.
+        abstracts['list_keywords'] = abstracts.apply(lambda row: concat_keywords(row['Keywords'])
+                                                 if len(row['Keywords']) > 0 else row['Keywords'], axis=1)
 
-    nonPunct = re.compile('.*[A-Za-z0-9].*')  # must contain a letter or digit
-    # count number sentences per abstract
-    abstracts['nb_sentences'] = abstracts.apply(lambda row: len(sent_tokenize(row['text_standardized'])) , axis=1)
+        nonPunct = re.compile('.*[A-Za-z0-9].*')  # must contain a letter or digit
+        # count number sentences per abstract
+        abstracts['nb_sentences'] = abstracts.apply(lambda row: len(sent_tokenize(row['text_standardized'])) , axis=1)
 
-    # construction of df_abstracts
-    df_abstracts = abstracts[['article_ID', 'Title', 'text_standardized', 'list_keywords', 'category', 'nb_sentences', 'nb_words', 'nb_characters']]
-    df_abstracts.rename(columns={'text_standardized':'text', 'list_keywords':'Keywords'}, inplace=True)
+        # construction of df_abstracts
+        df_abstracts = abstracts[['article_ID', 'Title', 'text_standardized', 'list_keywords', 'category', 'nb_sentences', 'nb_words', 'nb_characters']]
+        df_abstracts.rename(columns={'text_standardized':'text', 'list_keywords':'Keywords'}, inplace=True)
 
-    # save abstracts
-    df_abstracts.to_excel('abstracts.xlsx', index=None)
+        # save abstracts
+        df_abstracts.to_csv('./data/corpus.csv', index=None)
+    else:
+        df_abstracts = pd.read_csv('./data/corpus.csv')
     return df_abstracts
 
 
