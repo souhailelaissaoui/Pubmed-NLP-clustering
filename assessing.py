@@ -155,7 +155,7 @@ def relevance_ratio(row):
                 break
 
     try:
-        relevance_title = (count / no_tags) * 100
+        relevance_title = (count / no_tags)
     except:
         relevance_title = np.nan
 
