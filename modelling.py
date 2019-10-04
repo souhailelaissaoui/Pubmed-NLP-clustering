@@ -79,6 +79,7 @@ def get_df_for_centroid(df):
     :param df: output of the preprocessing part
     :return: a dataframe with a line per document and a column per word, with tfidf values
     """
+    col = df.tfidf_features[0]
     list_words = []
     for i, j in df.tfidf.iteritems():
         list_words.append(j)
