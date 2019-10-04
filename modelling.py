@@ -34,9 +34,11 @@ def main_modelling(df, max_depth=5, parameters=parameters, max_cluster_by_step=5
     """
     corpus_for_centroid = get_df_for_centroid(df)
     article_ID_list_racine = df.article_ID.to_list()
-    model_res = inception_clustering_model(df=df,
-                                           df_for_centroid=corpus_for_centroid,
-                                           article_ID_list=article_ID_list_racine,
+    col = df.tfidf_features[0]
+    model_res = inception_clustering_model(df,
+                                           corpus_for_centroid,
+                                           article_ID_list_racine,
+                                           col,
                                            max_depth=max_depth,
                                            depth=0,
                                            parameters=parameters,
