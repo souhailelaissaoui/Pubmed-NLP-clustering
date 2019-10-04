@@ -63,8 +63,10 @@ def evaluate_separation(tag_column, unique_tags, pvalue_threshold=0.05):
         t_test_results = ttest_ind(tfidf_doi, tfidf_doni)
         t_test[tag] = (t_test_results.pvalue < pvalue_threshold) * 1
 
-    return t_test
+    # Compute the percentage of tags that reject the null hypothesis
+    per_tags = sum(t_test.values()) / len(t_test.values()) * 100
 
+    return t_test, per_tags
 
 
 # Method 3: Relevance
