@@ -16,20 +16,16 @@ corpus_train, corpus_test = split_train_test(corpus)
 #Model
 model_res = main_modelling(df=corpus_train,
                            max_depth=5,
-                           depth=0,
                            parameters=parameters,
                            max_cluster_by_step=5,
-                           min_size_of_a_cluster=11,
-                           local_node=MetaCluster([], ["Root"]))
+                           min_size_of_a_cluster=11)
 
 
 model_res_test = main_modelling(df=corpus_test,
                            max_depth=5,
-                           depth=0,
                            parameters=parameters,
                            max_cluster_by_step=5,
-                           min_size_of_a_cluster=11,
-                           local_node=MetaCluster([], ["Root"]))
+                           min_size_of_a_cluster=11)
 
 #Assess the models
 #M1: Robustness
