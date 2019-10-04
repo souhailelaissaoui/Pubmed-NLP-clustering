@@ -43,7 +43,7 @@ def main_assessing(df, model_res, unique_tags_train, parameters):
 
     # M3:
     # model = # todo: add Adrien model w2v
-    relevance_evaluation = evaluate_relevance(df, model=model)
+    relevance_evaluation = evaluate_relevance(corpus_train, model=model)
 
     # TODO - adapter les outputs de main_assessing
     return robustness_score, separation_score, relevance_evaluation
@@ -93,7 +93,7 @@ def evaluate_robustness(df_train, df_test):
     :return: dataframe with robustness score per document, mean score for the entire corpus
     '''
     df_train['tags_test'] = df_test.tags
-    df_train['robustness_score'] = df.apply(compute_common_tags, axis=1)
+    df_train['robustness_score'] = df_train.apply(compute_common_tags, axis=1)
     mean_robustness_score = df_train.robustness_score.mean()
     return df_train, mean_robustness_score
 
