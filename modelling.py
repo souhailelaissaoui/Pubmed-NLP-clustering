@@ -160,7 +160,9 @@ def inception_clustering_model(df,
             print("Cluster : " + str(best_tag))
             print("Nb documents : " + str(len(clusters_article_ID[new_cluster_number])))
             inception_clustering_model(df=df,
+                                       df_for_centroid=df_for_centroid,
                                        article_ID_list=clusters_article_ID[new_cluster_number],
+                                       col=col,
                                        max_depth=max_depth,
                                        depth=depth + 1,
                                        parameters=parameters,
