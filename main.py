@@ -29,4 +29,4 @@ model_res, unique_tags_train = main_modelling(df=corpus,
 
 
 #Assessing
-robustness_score, separation_score, relevance_evaluation = main_assessing(corpus, model_res, unique_tags_train)
+robustness_score, separation_score, relevance_evaluation = main_assessing(corpus, model_res, unique_tags_train, parameters)

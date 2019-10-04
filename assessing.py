@@ -19,7 +19,7 @@ pvalue_threshold = 0.05
 
 
 ###Main function
-def main_assessing(df, model_res, unique_tags_train):
+def main_assessing(df, model_res, unique_tags_train, parameters):
     # Split train and test sets
     corpus_train = df.copy()
     corpus_test = split_train_test(corpus_train)
