@@ -18,6 +18,22 @@ column_words = 'text'
 nb_tags = 1
 
 
+### Main function
+def main_modelling(df, max_depth=5, depth=0, parameters=parameters, max_cluster_by_step=5, min_size_of_a_cluster=11,local_node=MetaCluster([], ["Root"])):
+    corpus_for_centroid = get_df_for_centroid(df)
+    article_ID_list_racine = df.article_ID.to_list()
+    model_res = inception_clustering_model(df=df,
+                                           df_for_centroid=corpus_for_centroid,
+                                           article_ID_list=article_ID_list_racine,
+                                           max_depth=max_depth,
+                                           depth=depth,
+                                           parameters=parameters,
+                                           max_cluster_by_step=max_cluster_by_step,
+                                           min_size_of_a_cluster=min_size_of_a_cluster,
+                                           local_node=local_node)
+
+    return model_res
+
 ### Class definition
 
 class MetaCluster(object):
