@@ -7,9 +7,9 @@ from assessing import main_assessing
 #Constants
 parameters = {"method_choice": ["kmeans_model", "kmeans_model", "kmeans_model", "kmeans_model", "kmeans_model"],
               "vector_choice": ["tfidf", "tfidf", "tfidf", "tfidf", "tfidf"],
-              "tag_choice": ["centroid", "centroid", "centroid", "centroid", "centroid"],
-              "max_depth": 2,
-              "max_cluster_by_step": 2,
+              "tag_choice": ["tfidf", "tfidf", "tfidf", "tfidf", "tfidf"],
+              "max_depth": 5,
+              "max_cluster_by_step": 8,
               "min_size_of_a_cluster": 11}
 
 

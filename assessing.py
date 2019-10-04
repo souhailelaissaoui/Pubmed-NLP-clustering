@@ -107,7 +107,6 @@ def evaluate_separation(df, unique_tags, pvalue_threshold=0.05):
     vectorizer = TfidfVectorizer(
         tokenizer=lambda x: x,  # already tokenized
         preprocessor=lambda x: x,  # already tokenized
-        max_features=500,
         token_pattern=None
     )
     feature_matrix = vectorizer.fit_transform(tag_column)
