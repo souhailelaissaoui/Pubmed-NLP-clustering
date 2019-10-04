@@ -15,7 +15,7 @@ parameters = {"method_choice": ["kmeans_model", "kmeans_model", "kmeans_model", 
 #Load the corpus
 #corpus_scrapped = main_scrapping(apply_scrapping=False)
 
-corpus_scrapped = pd.read_csv("/data/corpus.csv")
+corpus_scrapped = pd.read_csv("./data/corpus.csv")
 
 #Load the preprocessed data
 corpus = apply_preprocessing(corpus_scrapped)
