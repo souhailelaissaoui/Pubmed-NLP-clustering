@@ -14,7 +14,7 @@ parameters = {"method_choice": ["kmeans_model", "kmeans_model", "kmeans_model", 
               "vector_choice": ["tfidf", "tfidf", "tfidf", "tfidf", "tfidf"],
               "tag_choice": ["centroid", "centroid", "centroid", "centroid", "centroid"]}
 column_words = 'text'
-# TODO
+# TODO - P2
 nb_tags = 1
 
 
@@ -97,7 +97,8 @@ def inception_clustering_model(df,
             tags = get_label_from_tfidf(df,
                                         article_ID_list,
                                         clusters_article_ID,
-                                        df_index)
+                                        df_index,
+                                        nb_tags=nb_tags)
         elif tag_choice == "centroid":
             tags = get_label_from_centroid(df,
                                            df_for_centroid,
@@ -156,7 +157,7 @@ def cluster_model(df, method_choice, vector_choice, local_indexes, k_max, k_min=
     On the other hand :
     :param df: global df
     :param method_choice: kmeans or other
-    :param vector_choice: tfidf or w2vec #TODO
+    :param vector_choice: tfidf or w2vec
     :param local_indexes: list of article_IDs to consider as a main node in which to find clusters
     :param k_max: maximal number of clusters
     :param k_min: minimal number of clusters
@@ -166,7 +167,7 @@ def cluster_model(df, method_choice, vector_choice, local_indexes, k_max, k_min=
     if method_choice == "kmeans_model":
         silhouete_scores = []
         # Each row of the matrix is a document and each column a dimension of its vector
-        vector_matrix = np.array(df.loc[df.article_ID.isin(local_indexes), :].tfidf.tolist())
+        vector_matrix = np.array(df.loc[df.article_ID.isin(local_indexes),vector_choice].to_list())
         # Finding the best number of cluster
         for k in np.arange(k_min, k_max + 1):
             kmeans = KMeans(n_clusters=k).fit(vector_matrix)
