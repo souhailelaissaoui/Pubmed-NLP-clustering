@@ -54,6 +54,7 @@ def get_df_for_centroid(df):
 def inception_clustering_model(df,
                                df_for_centroid,
                                article_ID_list,
+                               col,
                                max_depth=3,
                                depth=0,
                                parameters=parameters,
@@ -65,6 +66,7 @@ def inception_clustering_model(df,
     :param df: global preprocessed data frame
     :param df_for_centroid: cf function above, tfidf only dataframe
     :param article_ID_list: list of the relevant article_ID at the stage
+    :param col: names of the words for the tfidf vector
     :param max_depth: maximum number of iteration (depth) in the tree, doesn't change
     :param depth: current depth at that stage, changes
     :param parameters: information about the relevant model / vectorization to use for kmeans
@@ -101,6 +103,7 @@ def inception_clustering_model(df,
                                            df_for_centroid,
                                            article_ID_list,
                                            clusters_article_ID,
+                                           col,
                                            df_index,
                                            depth)
         else:
@@ -252,6 +255,7 @@ def get_label_from_centroid(df,
                             df_for_centroid,
                             list_node,
                             list_clusters,
+                            col,
                             df_index,
                             depth):
     """
@@ -262,6 +266,7 @@ def get_label_from_centroid(df,
     :param df_for_centroid: df with all tfidf
     :param list_node: article IDs of the father node
     :param list_clusters: clusters with their article ID
+    :param col: names of the words in the tfidf column
     :param df_index: clusters with their index in the df
     :param depth: actual depth
     :return:
@@ -328,7 +333,6 @@ def update_df_with_tags(df, tree_result):
 ## Data
 # TODO
 df = pd.read_json("corpus4.json")
-col = df.tfidf_features[0] #todo: à mettre en argument
 article_ID_list_racine = df.article_ID.to_list()
 df_for_centroid = get_df_for_centroid(df)
 
@@ -336,6 +340,7 @@ df_for_centroid = get_df_for_centroid(df)
 model_res = inception_clustering_model(df=df,
                                        df_for_centroid=df_for_centroid,
                                        article_ID_list=article_ID_list_racine,
+                                       col=df.tfidf_features[0],
                                        max_depth=5,
                                        depth=0,
                                        parameters=parameters,
