@@ -37,13 +37,14 @@ def main_assessing(df, model_res, unique_tags_train, parameters):
     # Assess the models
     # M1: Robustness
     corpus_evaluated, robustness_score = evaluate_robustness(corpus_train, corpus_test)
+    print(robustness_score)
 
     # M2: Separation
     t_tests, separation_score = evaluate_separation(corpus_train, unique_tags_train)
+    print(separation_score)
 
     # M3:
     # model = # todo: add Adrien model w2v
-    #relevance_evaluation = evaluate_relevance(corpus_train, model=model)
 
     # TODO - adapter les outputs de main_assessing
     return robustness_score, separation_score#, relevance_evaluation
@@ -79,7 +80,7 @@ def compute_common_tags(row):
     test_tags = row['tags_test']
     nb_total_tags = len(train_tags) + len(test_tags)
     nb_common_tags = len(set(train_tags) & set(test_tags))
-    percentage_common_tags = 200 * (nb_common_tags / nb_total_tags)
+    percentage_common_tags = 2 * (nb_common_tags / nb_total_tags)
 
     return percentage_common_tags
 
