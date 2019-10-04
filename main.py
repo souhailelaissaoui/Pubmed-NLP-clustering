@@ -13,7 +13,8 @@ parameters = {"method_choice": ["kmeans_model", "kmeans_model", "kmeans_model", 
 
 
 #Load the corpus
-corpus_scrapped = main_loading(run_loading=False)
+main_loading(run_loading=False)
+
 
 #Load the preprocessed data
 corpus = apply_preprocessing(run_preprocessing=False)

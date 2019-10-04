@@ -45,9 +45,7 @@ def main_loading(run_loading=False):
 
         # save abstracts
         df_abstracts.to_csv('./data/corpus.csv', index=None)
-    else:
-        df_abstracts = pd.read_csv('./data/corpus.csv')
-    return df_abstracts
+    return
 
 
 
