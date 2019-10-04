@@ -6,7 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.stats import ttest_ind
 from gensim.models import KeyedVectors, Word2Vec
 
-
+from modelling import update_df_with_tags
 
 ### Constants
 tag_column = 'tags'
@@ -14,11 +14,7 @@ tokens_column = 'text'
 title_column = 'Title'
 category_column = 'category'
 train_test_split = 0.8
-pvalue_threshold  = 0.05
-
-
-
-
+pvalue_threshold = 0.05
 
 
 ### Core functions
@@ -33,9 +29,11 @@ def split_train_test(df, train_test_split=0.8):
     :return: two dataframes: one with 100% of the tokens  and one with a percentage of the tokens
     '''
     df_test = df.copy()
-    df_test[tokens_column] = df.apply(lambda x: random.sample(x[tokens_column],round(len(x[tokens_column]) * train_test_split)), axis=1)
+    df_test[tokens_column] = df.apply(
+        lambda x: random.sample(x[tokens_column], round(len(x[tokens_column]) * train_test_split)), axis=1)
 
-    return df, df_test
+    return df_test
+
 
 def compute_common_tags(row):
     '''
@@ -51,6 +49,7 @@ def compute_common_tags(row):
     percentage_common_tags = 200 * (nb_common_tags / nb_total_tags)
 
     return percentage_common_tags
+
 
 def evaluate_robustness(df_train, df_test):
     '''
@@ -152,3 +151,31 @@ def evaluate_relevance(df, model):
     return df
 
 
+def main_assessing(df, model_res, unique_tags_train):
+    # Split train and test sets
+    corpus_train = df.copy()
+    corpus_test = split_train_test(corpus_train)
+
+    # Used for robustness
+    model_res_test, unique_tags_test = main_modelling(df=corpus_test,
+                                                      max_depth=5,
+                                                      parameters=parameters,
+                                                      max_cluster_by_step=5,
+                                                      min_size_of_a_cluster=11)
+    # Get updated df
+    corpus_train = update_df_with_tags(corpus_train, model_res)
+    corpus_test = update_df_with_tags(corpus_test, model_res_test)
+
+    # Assess the models
+    # M1: Robustness
+    corpus_evaluated, robustness_score = evaluate_robustness(corpus_train, corpus_test)
+
+    # M2: Separation
+    t_tests, separation_score = evaluate_separation(corpus_train, unique_tags_train)
+
+    # M3:
+    # model = # todo: add Adrien model w2v
+    relevance_evaluation = evaluate_relevance(df, model=model)
+
+    # TODO - adapter les outputs de main_assessing
+    return robustness_score, separation_score, relevance_evaluation
