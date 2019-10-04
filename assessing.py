@@ -195,7 +195,7 @@ def evaluate_relevance(df):
     Evaluates the relevance of our model
     """
 
-    df = add_relevance_column(data)
+    df = add_relevance_column(df)
     relevance_title_metric = get_metrics(df)
 
     return relevance_title_metric
