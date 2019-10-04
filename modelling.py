@@ -337,7 +337,8 @@ def get_set_of_all_tags(tree_result):
         for child in local_node.children_clusters:
             add_tag(child)
 
-    add_tag(tree_result)
+    for first_child in tree_result.children_clusters:
+        add_tag(first_child)
     return set(res)
 
 
