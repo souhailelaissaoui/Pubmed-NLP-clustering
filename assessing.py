@@ -2,6 +2,7 @@
 import pandas as pd
 import random
 import numpy as np
+from fuzzywuzzy import fuzz
 from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.stats import ttest_ind
 from modelling import update_df_with_tags, main_modelling
