@@ -354,26 +354,3 @@ def update_df_with_tags(df, tree_result):
         df.at[i,"tags"] = list(set(list(df.loc[i,"tags"])))
     return (df)
 
-
-
-### Execution flow (to be moved to main)
-
-## Data
-# TODO
-df = pd.read_json("corpus4.json")
-article_ID_list_racine = df.article_ID.to_list()
-df_for_centroid = get_df_for_centroid(df)
-
-## Test
-model_res = inception_clustering_model(df=df,
-                                       df_for_centroid=df_for_centroid,
-                                       article_ID_list=article_ID_list_racine,
-                                       col=df.tfidf_features[0],
-                                       max_depth=5,
-                                       depth=0,
-                                       parameters=parameters,
-                                       max_cluster_by_step=5,
-                                       min_size_of_a_cluster=11,
-                                       local_node=MetaCluster([], ["Root"]))
-
-update_df_with_tags(df, model_res)
