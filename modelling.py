@@ -324,7 +324,7 @@ def update_df_with_tags(df, tree_result):
     df["tags"] = tags
 
     for i in df.index:
-        df.at[i, "tags"] = list(df.loc[i, "tags"])
+        df.at[i,"tags"] = list(set(list(df.loc[i,"tags"])))
     return (df)
 
 
