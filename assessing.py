@@ -101,14 +101,14 @@ def evaluate_robustness(df_train, df_test):
 
 # Method 2: Separation
 def evaluate_separation(df, unique_tags, pvalue_threshold=0.05):
-    '''
+    """
     Assess if the tag of a cluster is significantly more in the cluster than in the rest of the corpus
 
     :param tag_column: tag column name
     :param unique_tags: list of unique tags
     :param pvalue_threshold: threshold to reject the null hypothesis
     :return: binary value (1 if the mean of the tfidf of the one cluster in statistically different from the rest of the corpus)
-    '''
+    """
     tag_column = df['tags']
     vectorizer = TfidfVectorizer(
         tokenizer=lambda x: x,  # already tokenized
@@ -140,47 +140,63 @@ def evaluate_separation(df, unique_tags, pvalue_threshold=0.05):
 # Method 3: Relevance
 
 def relevance_ratio(row):
-    '''
-    Computes the relevance ratio for a title
+    """
+    For each row adds our relevance metric which matches the tags found with the bag of words from the title
+        @row: Full row of the input dataframe
+    """
 
-    :param row: row of the preprocessed dataframe
-    :return: same row with a relevance metric
-    '''
     count = 0
-    nb_words_title = len(row[title_column])
+    no_tags = len(row["Title"])
+    partial_ratio_treshold = 80
 
-    for tag in row[tag_column]:
-        if tag in row[title_column]:
-            count += 1
+    # for each tag check if the tag is present in the title
+    for tag in row["tags"]:
 
-    relevance_metric = count / nb_words_title
-    row["relevance_metric"] = relevance_metric
+        for word in row["Title"]:
 
-    return row
+            partial_ratio = fuzz.partial_ratio(tag, word)
 
+            if partial_ratio > partial_ratio_treshold:
+                count += 1
+                break
 
-def relevance_category(row, model):
-    word_vectors = model.wv
-    category = row[category_column]
-    number_tags = len(row[tag_column])
+    try:
+        relevance_title = (count / no_tags) * 100
+    except:
+        relevance_title = np.nan
 
-    for tag in row[tag_column]:
-
-        try:
-            cum_score += word_vectors.n_similarity([tag], [category])
-        except:
-            print("category word does not appear in all texts combined")
-            number_tags -= 1
-            continue
-
-    row['mean_score'] = cum_score / number_tags
+    row["relevance_title"] = relevance_title
 
     return row
 
 
-def evaluate_relevance(df, model):
+def add_relevance_column(df):
+    """
+    Evaluates the pertinence of our unsupervised labelling model
+        @df: Input Dataframes
+    """
+
     df = df.apply(relevance_ratio, axis=1)
-    df = df.apply(lambda row: relevance_category(row, model), axis=1)
-
     return df
+
+
+def get_metrics(df):
+    """
+    Computes the mean score accross all rows
+    """
+
+    relevance_title_metric = df["relevance_title"].mean()
+
+    return relevance_title_metric
+
+
+def evaluate_relevance(df):
+    """
+    Evaluates the relevance of our model
+    """
+
+    df = add_relevance_column(data)
+    relevance_title_metric = get_metrics(df)
+
+    return relevance_title_metric
 
