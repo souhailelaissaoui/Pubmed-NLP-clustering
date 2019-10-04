@@ -19,18 +19,28 @@ nb_tags = 1
 
 
 ### Main function
-def main_modelling(df, max_depth=5, depth=0, parameters=parameters, max_cluster_by_step=5, min_size_of_a_cluster=11,local_node=MetaCluster([], ["Root"])):
+def main_modelling(df, max_depth=5, parameters=parameters, max_cluster_by_step=5, min_size_of_a_cluster=11):
+    """
+    Main function that calls the recurcive function for the clustering model with the good entry point
+
+    :param df: preprocessed data frame
+    :param max_depth: maximal depth for the tree of clusters
+    :param parameters: information to choose the vector, the model, and the tag at each depth
+    :param max_cluster_by_step: max cluster by step for the kmean model
+    :param min_size_of_a_cluster: minimal size at which the tree stops (leaf)
+    :return: an MetaCluster object with the tree of the result
+    """
     corpus_for_centroid = get_df_for_centroid(df)
     article_ID_list_racine = df.article_ID.to_list()
     model_res = inception_clustering_model(df=df,
                                            df_for_centroid=corpus_for_centroid,
                                            article_ID_list=article_ID_list_racine,
                                            max_depth=max_depth,
-                                           depth=depth,
+                                           depth=0,
                                            parameters=parameters,
                                            max_cluster_by_step=max_cluster_by_step,
                                            min_size_of_a_cluster=min_size_of_a_cluster,
-                                           local_node=local_node)
+                                           local_node=MetaCluster([], ["Root"]))
 
     return model_res
 
