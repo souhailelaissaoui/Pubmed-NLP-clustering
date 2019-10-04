@@ -9,6 +9,8 @@ parameters = {"method_choice": ["kmeans_model", "kmeans_model", "kmeans_model", 
               "vector_choice": ["tfidf", "tfidf", "tfidf", "tfidf", "tfidf"],
               "tag_choice": ["centroid", "centroid", "centroid", "centroid", "centroid"]}
 
+np.seed(42)
+
 
 #Load the corpus
 main_loading(run_loading=False)
