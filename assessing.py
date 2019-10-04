@@ -7,7 +7,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.stats import ttest_ind
 from modelling import update_df_with_tags, main_modelling
 
-np.seed(42)
+np.random.seed(42)
 
 ### Constants
 tag_column = 'tags'

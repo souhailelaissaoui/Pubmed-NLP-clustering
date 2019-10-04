@@ -6,7 +6,7 @@ from sklearn.metrics import silhouette_score
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
-np.seed(42)
+np.random.seed(42)
 ### Constants
 
 column_words = 'text'
