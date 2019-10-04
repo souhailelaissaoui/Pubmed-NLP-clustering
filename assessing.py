@@ -145,16 +145,3 @@ def evaluate_relevance(df, model):
     return df
 
 
-### Execution flow
-#M1:
-
-df, df_test = split_train_test(df)
-
-#M2:
-#unique_tags = # todo: add Gautier function
-evaluate_separation(tag_column, unique_tags)
-
-#M3:
-# model = # todo: add Adrien model w2v
-evaluate_pertinence(df, model=model)
-
