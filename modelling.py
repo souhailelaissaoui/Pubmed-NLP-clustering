@@ -9,9 +9,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 ### Constants
 
-parameters = {"method_choice": ["kmeans_model", "kmeans_model", "kmeans_model", "kmeans_model", "kmeans_model"],
-              "vector_choice": ["tfidf", "tfidf", "tfidf", "tfidf", "tfidf"],
-              "tag_choice": ["centroid", "centroid", "centroid", "centroid", "centroid"]}
 column_words = 'text'
 # TODO - P2
 nb_tags = 1
@@ -21,7 +18,7 @@ nb_tags = 1
 
 
 ### Main function
-def main_modelling(df, max_depth=5, parameters=parameters, max_cluster_by_step=5, min_size_of_a_cluster=11):
+def main_modelling(df, max_depth, parameters, max_cluster_by_step=5, min_size_of_a_cluster=11):
     """
     Main function that calls the recurcive function for the clustering model with the good entry point
 
