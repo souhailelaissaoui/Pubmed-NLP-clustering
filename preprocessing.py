@@ -276,7 +276,3 @@ def apply_preprocessing(corpus):
     prev_time = measure_time_step(prev_time) # Time
 
     return corpus_prep
-
-### Execution flow (to be moved to main)
-corpus = pd.read_csv(path_to_scrapped_corpus)
-apply_preprocessing(corpus)

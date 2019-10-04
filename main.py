@@ -1,10 +1,13 @@
-from preprocessing import text_preprocessing, vectorize_corpus
+from preprocessing import apply_preprocessing, vectorize_corpus
 from modelling import main_modelling, get_set_of_all_tags
 from assessing import evaluate_relevance, evaluate_separation, evaluate_robustness
 
+#Load the corpus
+path_to_scrapped_corpus = ""
+corpus = pd.read_csv(path_to_scrapped_corpus)
 
 #Load the preprocessed data
-corpus = text_preprocessing()
+corpus = apply_preprocessing(corpus)
 
 # Constants
 parameters = {"method_choice": ["kmeans_model", "kmeans_model", "kmeans_model", "kmeans_model", "kmeans_model"],
