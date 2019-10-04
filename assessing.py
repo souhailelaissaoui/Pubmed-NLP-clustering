@@ -18,7 +18,6 @@ train_test_split = 0.8
 pvalue_threshold = 0.05
 
 
-
 ###Main function
 def main_assessing(df, model_res, unique_tags_train, parameters):
     # Split train and test sets
@@ -35,18 +34,15 @@ def main_assessing(df, model_res, unique_tags_train, parameters):
     # Assess the models
     # M1: Robustness
     corpus_evaluated, robustness_score = evaluate_robustness(corpus_train, corpus_test)
-    print(robustness_score)
 
     # M2: Separation
     t_tests, separation_score = evaluate_separation(corpus_train, unique_tags_train)
-    print(separation_score)
 
     # M3:
     relevance_evaluation = evaluate_relevance(corpus_train)
 
     # TODO - adapter les outputs de main_assessing
     return robustness_score, separation_score, relevance_evaluation
-
 
 
 ### Core functions
@@ -197,4 +193,3 @@ def evaluate_relevance(df):
     relevance_title_metric = get_metrics(df)
 
     return relevance_title_metric
-

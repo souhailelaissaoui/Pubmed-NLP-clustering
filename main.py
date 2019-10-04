@@ -8,9 +8,9 @@ from assessing import main_assessing
 parameters = {"method_choice": ["kmeans_model", "kmeans_model", "kmeans_model", "kmeans_model", "kmeans_model"],
               "vector_choice": ["tfidf", "tfidf", "tfidf", "tfidf", "tfidf"],
               "tag_choice": ["centroid", "centroid", "centroid", "centroid", "centroid"],
-              "max_depth" : 3,
-              "max_cluster_by_step" : 3,
-              "min_size_of_a_cluster" : 11}
+              "max_depth": 3,
+              "max_cluster_by_step": 3,
+              "min_size_of_a_cluster": 11}
 
 
 #Load the corpus
@@ -28,3 +28,14 @@ model_res, unique_tags_train = main_modelling(df=corpus, parameters=parameters)
 #Assessing
 robustness_score, separation_score, relevance_evaluation = main_assessing(corpus, model_res, unique_tags_train, \
                                                                           parameters)
+
+#Print results
+print("parameters")
+print(parameters)
+print("robustness_score")
+print(robustness_score)
+print("separation_score")
+print(separation_score)
+print("relevance_evaluation")
+print(relevance_evaluation)
+
