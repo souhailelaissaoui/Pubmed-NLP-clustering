@@ -40,7 +40,7 @@ model_res_test, unique_tags_test = main_modelling(df=corpus_test,
 corpus_evaluated, robustness_score = evaluate_robustness(corpus_train, corpus_test)
 
 #M2: Separation
-separation_evaluation = evaluate_separation(tag_column, unique_tags_train)
+t_tests, separation_score = evaluate_separation(corpus_train, unique_tags_train)
 
 #M3:
 # model = # todo: add Adrien model w2v

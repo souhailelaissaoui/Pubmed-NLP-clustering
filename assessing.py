@@ -67,7 +67,7 @@ def evaluate_robustness(df_train, df_test):
 
 
 # Method 2: Separation
-def evaluate_separation(tag_column, unique_tags, pvalue_threshold=0.05):
+def evaluate_separation(df, unique_tags, pvalue_threshold=0.05):
     '''
     Assess if the tag of a cluster is significantly more in the cluster than in the rest of the corpus
 
