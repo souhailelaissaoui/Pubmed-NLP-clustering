@@ -1,5 +1,5 @@
 from preprocessing import text_preprocessing, vectorize_corpus
-from modelling import main_modelling
+from modelling import main_modelling, get_set_of_all_tags
 from assessing import evaluate_relevance, evaluate_separation, evaluate_robustness
 
 
