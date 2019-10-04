@@ -137,7 +137,7 @@ def filter_out_to_few(corpus):
 	
 	return corpus
 
-	def w2v_get_vector(word, model=None):
+def w2v_get_vector(word, model=None):
 	"""
 	Get the vector from the w2v model (returning None if the word is absent)
 	:param word: the word we want to transform to a vector

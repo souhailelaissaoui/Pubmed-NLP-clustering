@@ -1,4 +1,4 @@
-from scrapping import main_scrapping
+#from scrapping import main_scrapping
 from preprocessing import apply_preprocessing
 from modelling import main_modelling
 from assessing import main_assessing
