@@ -155,10 +155,6 @@ def inception_clustering_model(df,
             best_tag = tags[new_cluster_number]
             new_node = MetaCluster(clusters_article_ID[new_cluster_number], best_tag)
             local_node.add_under_cluster(new_node)
-            print("--------------------------------")
-            print("Profondeur : " + str(depth))
-            print("Cluster : " + str(best_tag))
-            print("Nb documents : " + str(len(clusters_article_ID[new_cluster_number])))
             inception_clustering_model(df=df,
                                        df_for_centroid=df_for_centroid,
                                        article_ID_list=clusters_article_ID[new_cluster_number],
@@ -172,6 +168,7 @@ def inception_clustering_model(df,
 
     # After all the recursive function calls, we only return the root node
     if depth == 0:
+        print(local_node)
         return (local_node)
 
 

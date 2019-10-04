@@ -4,7 +4,7 @@ import random
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.stats import ttest_ind
-from modelling import update_df_with_tags
+from modelling import update_df_with_tags, main_modelling
 
 
 
