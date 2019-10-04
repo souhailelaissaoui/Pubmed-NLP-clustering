@@ -38,10 +38,10 @@ pos_lem = {
 ### Core functions
 def measure_time_step(prev_time, init=False):
     """
-	Convinient way to measure time in the execution flow
-	:param prev_time: end time of the previous execution
-	:return: current time
-	"""
+    Convinient way to measure time in the execution flow
+    :param prev_time: end time of the previous execution
+    :return: current time
+    """
     current = datetime.datetime.now()
     if not (init):
         print(current - prev_time)
@@ -50,10 +50,10 @@ def measure_time_step(prev_time, init=False):
 
 def cleaning_filter(text):
     """
-	Filter to get rid of retracted and badly formatted article
-	:param text: abstract
-	:return: Pandas Serie True (keep) are False (delete)
-	"""
+    Filter to get rid of retracted and badly formatted article
+    :param text: abstract
+    :return: Pandas Serie True (keep) are False (delete)
+    """
     try:  # A REFAIRE
         if "StringElement" in text:  # A REVOIR SI EUX L'ONT GARDE
             text = "badformat"
@@ -73,12 +73,12 @@ def cleaning_filter(text):
 
 def text_preprocessing(text, word_reduction='lemmatization', pos_lem=pos_lem):
     """
-	Preprocess a text (stop word punctuation lemmatization and tokenization ...)
-	:param text: text to preprocess
-	:param word_reduction: lemmatization or stemming
-	:param pos_lem: dictionnary rule of pos lemmatization
-	:return: tokenized preprocess text
-	"""
+    Preprocess a text (stop word punctuation lemmatization and tokenization ...)
+    :param text: text to preprocess
+    :param word_reduction: lemmatization or stemming
+    :param pos_lem: dictionnary rule of pos lemmatization
+    :return: tokenized preprocess text
+    """
     # To lower case
     text = text.lower()
 
@@ -118,10 +118,10 @@ def text_preprocessing(text, word_reduction='lemmatization', pos_lem=pos_lem):
 
 def filter_out_to_few(corpus):
     """
-	Remove word that appear too much (not pertinent) and too few (not useful)
-	:param corpus: dataframe of the corpus
-	:return: corpus dataframe without the words we want to remove
-	"""
+    Remove word that appear too much (not pertinent) and too few (not useful)
+    :param corpus: dataframe of the corpus
+    :return: corpus dataframe without the words we want to remove
+    """
     # Remove words that appear less than 5 time in the whole corpus
     words = list(np.concatenate(corpus.values))
     word_count = dict(Counter(words))
@@ -142,11 +142,11 @@ def filter_out_to_few(corpus):
 
 def w2v_get_vector(word, model=None):
     """
-	Get the vector from the w2v model (returning None if the word is absent)
-	:param word: the word we want to transform to a vector
-	:param model: the model of w2v
-	:return: vector
-	"""
+    Get the vector from the w2v model (returning None if the word is absent)
+    :param word: the word we want to transform to a vector
+    :param model: the model of w2v
+    :return: vector
+    """
     try:
         return model.get_vector(word)
     except Exception as e:
@@ -155,13 +155,13 @@ def w2v_get_vector(word, model=None):
 
 def vectorisation_w2v(tokens, agg='mean', model=None, word_coefficients=None):
     """
-	Vectorize the tokenized text
-	:param tokens: tokenized text
-	:param agg: type of aggregation (tfidf is a mean weighted by tfidf)
-	:param model: the w2v model
-	:param word_coefficients: coefficient from the tfidf if agg="tfidf"
-	:return: vector of the text
-	"""
+    Vectorize the tokenized text
+    :param tokens: tokenized text
+    :param agg: type of aggregation (tfidf is a mean weighted by tfidf)
+    :param model: the w2v model
+    :param word_coefficients: coefficient from the tfidf if agg="tfidf"
+    :return: vector of the text
+    """
     # Each word to w2v
     token_words = tokens
     tokens = list(map(
@@ -188,12 +188,12 @@ def vectorisation_w2v(tokens, agg='mean', model=None, word_coefficients=None):
 
 def vectorize_corpus(corpus, methods=["w2v", "tfidf"], model=None):
     """
-	Vectorize the corpus 
-	:param corpus: our corpus dataframe
-	:param methods: list of the vectorisation methods we want to have
-	:param model: w2v model we want to use
-	:return: previous dataframe with one columns more per vectorisation
-	"""
+    Vectorize the corpus
+    :param corpus: our corpus dataframe
+    :param methods: list of the vectorisation methods we want to have
+    :param model: w2v model we want to use
+    :return: previous dataframe with one columns more per vectorisation
+    """
     corpus = corpus.reset_index(drop=True)
     if "tfidf" in methods:
         # Do the TFIDF
@@ -238,48 +238,53 @@ def vectorize_corpus(corpus, methods=["w2v", "tfidf"], model=None):
 
 def train_w2v_model(corpus):
     """
-	Train a w2v using our corpus
-	:param corpus: dataframe of our corpus
-	:return: gensim w2v model
-	"""
+    Train a w2v using our corpus
+    :param corpus: dataframe of our corpus
+    :return: gensim w2v model
+    """
     model = gensim.models.Word2Vec(corpus['text'].values, size=300, window=5, min_count=5, workers=4)
     model.train(corpus['text'].values, total_examples=corpus['text'].shape[0], epochs=500)
     return model
 
 
-def apply_preprocessing(corpus):
-    corpus = corpus.drop_duplicates(subset='text').reset_index(drop=True)
+def apply_preprocessing(run_preprocessing=False):
+    if run_preprocessing:
+        corpus = pd.read_csv("./data/corpus.csv")
+        corpus = corpus.drop_duplicates(subset='text').reset_index(drop=True)
 
-    print("-- Preprocessing :")
-    prev_time = measure_time_step(0, True)  # Time
-    print("Nb of documents", corpus.shape[0])
-    corpus = corpus[corpus['text'].apply(cleaning_filter)].reset_index(drop=True)
-    print("Nb of documents", corpus.shape[0])
-    corpus['Title'] = corpus['Title'].apply(str).apply(text_preprocessing)
-    corpus['text'] = corpus['text'].apply(str).apply(text_preprocessing)
-    prev_time = measure_time_step(prev_time)  # Time
+        print("-- Preprocessing :")
+        prev_time = measure_time_step(0, True)  # Time
+        print("Nb of documents", corpus.shape[0])
+        corpus = corpus[corpus['text'].apply(cleaning_filter)].reset_index(drop=True)
+        print("Nb of documents", corpus.shape[0])
+        corpus['Title'] = corpus['Title'].apply(str).apply(text_preprocessing)
+        corpus['text'] = corpus['text'].apply(str).apply(text_preprocessing)
+        prev_time = measure_time_step(prev_time)  # Time
 
-    corpus = corpus.loc[:, ['article_ID', 'Title', 'Keywords', 'text', 'category']]
+        corpus = corpus.loc[:, ['article_ID', 'Title', 'Keywords', 'text', 'category']]
 
-    print("-- Remove word that appear to much or to few :")
-    print(np.unique(np.concatenate(corpus['text'].values)).shape[0])
-    corpus['text'] = filter_out_to_few(corpus['text'])
-    print(np.unique(np.concatenate(corpus['text'].values)).shape[0])
-    prev_time = measure_time_step(prev_time)  # Time
+        print("-- Remove word that appear to much or to few :")
+        print(np.unique(np.concatenate(corpus['text'].values)).shape[0])
+        corpus['text'] = filter_out_to_few(corpus['text'])
+        print(np.unique(np.concatenate(corpus['text'].values)).shape[0])
+        prev_time = measure_time_step(prev_time)  # Time
 
-    prev_time = measure_time_step(0, True)  # Time
-    print("-- Train model :")
-    model = train_w2v_model(corpus).wv
-    prev_time = measure_time_step(prev_time)  # Time
+        prev_time = measure_time_step(0, True)  # Time
+        print("-- Train model :")
+        model = train_w2v_model(corpus).wv
+        prev_time = measure_time_step(prev_time)  # Time
 
-    corpus_prep = corpus.copy()
+        corpus_prep = corpus.copy()
 
-    prev_time = measure_time_step(0, True)  # Time
+        prev_time = measure_time_step(0, True)  # Time
 
-    print("-- Vectorize :")
-    corpus_prep = vectorize_corpus(corpus_prep, methods=[
-        'w2v', "tfidf", 'tfidf_w2v_concat', 'w2v_tfidf', 'tfidf_w2v_tfidf_concat'
-    ], model=model)
-    prev_time = measure_time_step(prev_time)  # Time
+        print("-- Vectorize :")
+        corpus_prep = vectorize_corpus(corpus_prep, methods=[
+            'w2v', "tfidf", 'tfidf_w2v_concat', 'w2v_tfidf', 'tfidf_w2v_tfidf_concat'
+        ], model=model)
+        prev_time = measure_time_step(prev_time)  # Time
 
+        corpus_prep.to_csv("./data/preprocessed_corpus.json")
+    else:
+        corpus_prep = pd.read_json("./data/preprocessed_corpus.json")
     return corpus_prep
