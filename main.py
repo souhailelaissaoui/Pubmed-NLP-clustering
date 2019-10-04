@@ -23,14 +23,13 @@ corpus_train, corpus_test = split_train_test(corpus)
 
 
 #Model
-model_res = main_modelling(df=corpus_train,
+model_res, unique_tags_train = main_modelling(df=corpus_train,
                            max_depth=5,
                            parameters=parameters,
                            max_cluster_by_step=5,
                            min_size_of_a_cluster=11)
 
-
-model_res_test = main_modelling(df=corpus_test,
+model_res_test, unique_tags_test = main_modelling(df=corpus_test,
                            max_depth=5,
                            parameters=parameters,
                            max_cluster_by_step=5,
@@ -41,8 +40,7 @@ model_res_test = main_modelling(df=corpus_test,
 corpus_evaluated, robustness_score = evaluate_robustness(corpus_train, corpus_test)
 
 #M2: Separation
-unique_tags = get_set_of_all_tags(model_res)
-separation_evaluation = evaluate_separation(tag_column, unique_tags)
+separation_evaluation = evaluate_separation(tag_column, unique_tags_train)
 
 #M3:
 # model = # todo: add Adrien model w2v

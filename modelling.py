@@ -42,7 +42,8 @@ def main_modelling(df, max_depth=5, parameters=parameters, max_cluster_by_step=5
                                            min_size_of_a_cluster=min_size_of_a_cluster,
                                            local_node=MetaCluster([], ["Root"]))
 
-    return model_res
+    unique_tags = get_set_of_all_tags(model_res)
+    return model_res, unique_tags
 
 ### Class definition
 

@@ -76,18 +76,25 @@ def evaluate_separation(tag_column, unique_tags, pvalue_threshold=0.05):
     :param pvalue_threshold: threshold to reject the null hypothesis
     :return: binary value (1 if the mean of the tfidf of the one cluster in statistically different from the rest of the corpus)
     '''
-
-    # Compute tfidf
-    vectorizer = TfidfVectorizer()
+    tag_column = df[tag_column]
+    vectorizer = TfidfVectorizer(
+        tokenizer=lambda x: x,  # already tokenized
+        preprocessor=lambda x: x,  # already tokenized
+        max_features=500,
+        token_pattern=None
+    )
     feature_matrix = vectorizer.fit_transform(tag_column)
-    tfidf = pd.DataFrame(feature_matrix.todense(), columns=vectorizer.get_feature_names())
+    tfidf = pd.DataFrame(feature_matrix.todense(),
+                         columns=vectorizer.get_feature_names())
 
-    # For each label, perform a t-test
+    tag_column = tag_column.apply(lambda x: str(x))
     t_test = {}
     for tag in unique_tags:
         # Compute the tfidf for the documents of interest
         tfidf_doi = np.array(tfidf[tag_column.str.contains(tag)][tag])
+        # Compute the tfidf for the document of non-interest
         tfidf_doni = np.array(tfidf[~tag_column.str.contains(tag)][tag])
+        # Compute t-test
         t_test_results = ttest_ind(tfidf_doi, tfidf_doni)
         t_test[tag] = (t_test_results.pvalue < pvalue_threshold) * 1
 
