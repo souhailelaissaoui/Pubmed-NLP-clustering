@@ -78,9 +78,9 @@ def main_preprocessing(run_preprocessing=False):
         ], model=model)
         prev_time = measure_time_step(prev_time)  # Time
 
-        corpus_prep.to_json("./data/preprocessed_corpus.zip")
+        corpus_prep.to_json("./data/corpus_prep.zip")
     else:
-        corpus_prep = pd.read_json("./data/preprocessed_corpus.zip")
+        corpus_prep = pd.read_json("./data/corpus_prep.zip")
     return corpus_prep
 
 
