@@ -4,8 +4,6 @@ from preprocessing import main_preprocessing
 from modelling import main_modelling
 from assessing import main_assessing
 
-import pandas as pd
-
 #Constants
 parameters = {"method_choice": ["kmeans_model", "kmeans_model", "kmeans_model", "kmeans_model", "kmeans_model"],
               "vector_choice": ["tfidf", "tfidf", "tfidf", "tfidf", "tfidf"],

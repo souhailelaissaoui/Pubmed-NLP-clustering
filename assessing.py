@@ -108,7 +108,7 @@ def evaluate_separation(df, unique_tags, pvalue_threshold=0.05):
     :param pvalue_threshold: threshold to reject the null hypothesis
     :return: binary value (1 if the mean of the tfidf of the one cluster in statistically different from the rest of the corpus)
     '''
-    tag_column = df[tag_column]
+    tag_column = df['tags']
     vectorizer = TfidfVectorizer(
         tokenizer=lambda x: x,  # already tokenized
         preprocessor=lambda x: x,  # already tokenized
