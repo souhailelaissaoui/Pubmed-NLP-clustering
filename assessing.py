@@ -132,7 +132,7 @@ def evaluate_separation(df, unique_tags, pvalue_threshold=0.05):
         t_test[tag] = (t_test_results.pvalue < pvalue_threshold) * 1
 
     # Compute the percentage of tags that reject the null hypothesis
-    per_tags = sum(t_test.values()) / len(t_test.values()) * 100
+    per_tags = sum(t_test.values()) / len(t_test.values())
 
     return t_test, per_tags
 

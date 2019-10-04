@@ -22,7 +22,7 @@ corpus = main_preprocessing(run_preprocessing=False)
 model_res, unique_tags_train = main_modelling(df=corpus,
                            max_depth=5,
                            parameters=parameters,
-                           max_cluster_by_step=5,
+                           max_cluster_by_step=10,
                            min_size_of_a_cluster=11)
 
 
