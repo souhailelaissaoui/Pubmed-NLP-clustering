@@ -26,7 +26,7 @@ pvalue_threshold  = 0.05
 # Method 1: Robustness
 def split_train_test(df, train_test_split=0.8):
     '''
-    Randomly selects a percentage of tokens
+    Creates a test set which is a randomly selected fraction of all the tokens
 
     :param df: the preprocessed dataframe
     :param train_test_split: the percentage of tokens to randomly select
@@ -36,6 +36,34 @@ def split_train_test(df, train_test_split=0.8):
     df_test[tokens_column] = df.apply(lambda x: random.sample(x[tokens_column],round(len(x[tokens_column]) * train_test_split)), axis=1)
 
     return df, df_test
+
+def compute_common_tags(row):
+    '''
+    Computes the percentage of common tags between the train and the test sets for a specific document
+
+    :param row: row of the aggregated dataframe with tags
+    :return: percentage of common tags between train and test sets
+    '''
+    train_tags = row['tags']
+    test_tags = row['tags_test']
+    nb_total_tags = len(train_tags) + len(test_tags)
+    nb_common_tags = len(set(train_tags) & set(test_tags))
+    percentage_common_tags = 200 * (nb_common_tags / nb_total_tags)
+
+    return percentage_common_tags
+
+def evaluate_robustness(df_train, df_test):
+    '''
+    Compute the percentage of common tags between the train and the test sets for the entire corpus
+
+    :param df_train: output of the model with the train dataset
+    :param df_test: output of the model with the test dataset
+    :return: dataframe with robustness score per document, mean score for the entire corpus
+    '''
+    df_train['tags_test'] = df_test.tags
+    df_train['robustness_score'] = df.apply(compute_common_tags, axis=1)
+    mean_robustness_score = df_train.robustness_score.mean()
+    return df_train, mean_robustness_score
 
 
 # Method 2: Separation
