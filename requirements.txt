@@ -10,3 +10,4 @@ re
 string
 collections
 nltk
+fuzzywuzzy
