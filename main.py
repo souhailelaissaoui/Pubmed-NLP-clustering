@@ -1,6 +1,6 @@
 #from scrapping import main_scrapping
 from loading import main_loading
-from preprocessing import apply_preprocessing
+from preprocessing import main_preprocessing
 from modelling import main_modelling
 from assessing import main_assessing
 
