@@ -43,10 +43,10 @@ def main_assessing(df, model_res, unique_tags_train, parameters):
 
     # M3:
     # model = # todo: add Adrien model w2v
-    relevance_evaluation = evaluate_relevance(corpus_train, model=model)
+    #relevance_evaluation = evaluate_relevance(corpus_train, model=model)
 
     # TODO - adapter les outputs de main_assessing
-    return robustness_score, separation_score, relevance_evaluation
+    return robustness_score, separation_score#, relevance_evaluation
 
 
 
