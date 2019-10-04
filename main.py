@@ -6,6 +6,12 @@ from assessing import evaluate_relevance, evaluate_separation, evaluate_robustne
 #Load the preprocessed data
 corpus = text_preprocessing()
 
+# Constants
+parameters = {"method_choice": ["kmeans_model", "kmeans_model", "kmeans_model", "kmeans_model", "kmeans_model"],
+              "vector_choice": ["tfidf", "tfidf", "tfidf", "tfidf", "tfidf"],
+              "tag_choice": ["centroid", "centroid", "centroid", "centroid", "centroid"]}
+
+
 #Vectorize the corpus
 corpus = vectorize_corpus(corpus.sample(n=5), methods=["w2v", "tfidf"])
 
