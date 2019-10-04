@@ -1,12 +1,11 @@
 ### Imports
-
-## Packages
-
 import pandas as pd
 import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.feature_extraction.text import TfidfVectorizer
+
+
 
 ### Constants
 
@@ -16,6 +15,9 @@ parameters = {"method_choice": ["kmeans_model", "kmeans_model", "kmeans_model", 
 column_words = 'text'
 # TODO - P2
 nb_tags = 1
+
+
+
 
 
 ### Main function
@@ -45,6 +47,10 @@ def main_modelling(df, max_depth=5, parameters=parameters, max_cluster_by_step=5
     unique_tags = get_set_of_all_tags(model_res)
     return model_res, unique_tags
 
+
+
+
+
 ### Class definition
 
 class MetaCluster(object):
@@ -61,6 +67,9 @@ class MetaCluster(object):
         for cluster in self.children_clusters:
             ret += cluster.__repr__(level + 1)
         return ret
+
+
+
 
 
 ### Core functions

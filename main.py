@@ -17,7 +17,7 @@ main_loading(run_loading=False)
 
 
 #Load the preprocessed data
-corpus = apply_preprocessing(run_preprocessing=False)
+corpus = main_preprocessing(run_preprocessing=False)
 
 
 #Model

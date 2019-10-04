@@ -18,6 +18,10 @@ nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('averaged_perceptron_tagger')
 
+
+
+
+
 ### Constants
 path_to_scrapped_corpus = './data/corpus.csv'
 
@@ -33,6 +37,55 @@ pos_lem = {
     'VBP': 'v',
     'VBZ': 'v',
 }
+
+
+
+###Main function
+def main_preprocessing(run_preprocessing=False):
+    if run_preprocessing:
+        corpus = pd.read_csv("./data/corpus.csv")
+        corpus = corpus.drop_duplicates(subset='text').reset_index(drop=True)
+
+        print("-- Preprocessing :")
+        prev_time = measure_time_step(0, True)  # Time
+        print("Nb of documents", corpus.shape[0])
+        corpus = corpus[corpus['text'].apply(cleaning_filter)].reset_index(drop=True)
+        print("Nb of documents", corpus.shape[0])
+        corpus['Title'] = corpus['Title'].apply(str).apply(text_preprocessing)
+        corpus['text'] = corpus['text'].apply(str).apply(text_preprocessing)
+        prev_time = measure_time_step(prev_time)  # Time
+
+        corpus = corpus.loc[:, ['article_ID', 'Title', 'Keywords', 'text', 'category']]
+
+        print("-- Remove word that appear to much or to few :")
+        print(np.unique(np.concatenate(corpus['text'].values)).shape[0])
+        corpus['text'] = filter_out_to_few(corpus['text'])
+        print(np.unique(np.concatenate(corpus['text'].values)).shape[0])
+        prev_time = measure_time_step(prev_time)  # Time
+
+        prev_time = measure_time_step(0, True)  # Time
+        print("-- Train model :")
+        model = train_w2v_model(corpus).wv
+        prev_time = measure_time_step(prev_time)  # Time
+
+        corpus_prep = corpus.copy()
+
+        prev_time = measure_time_step(0, True)  # Time
+
+        print("-- Vectorize :")
+        corpus_prep = vectorize_corpus(corpus_prep, methods=[
+            'w2v', "tfidf", 'tfidf_w2v_concat', 'w2v_tfidf', 'tfidf_w2v_tfidf_concat'
+        ], model=model)
+        prev_time = measure_time_step(prev_time)  # Time
+
+        corpus_prep.to_json("./data/preprocessed_corpus.zip")
+    else:
+        corpus_prep = pd.read_json("./data/preprocessed_corpus.zip")
+    return corpus_prep
+
+
+
+
 
 
 ### Core functions
@@ -247,44 +300,3 @@ def train_w2v_model(corpus):
     return model
 
 
-def apply_preprocessing(run_preprocessing=False):
-    if run_preprocessing:
-        corpus = pd.read_csv("./data/corpus.csv")
-        corpus = corpus.drop_duplicates(subset='text').reset_index(drop=True)
-
-        print("-- Preprocessing :")
-        prev_time = measure_time_step(0, True)  # Time
-        print("Nb of documents", corpus.shape[0])
-        corpus = corpus[corpus['text'].apply(cleaning_filter)].reset_index(drop=True)
-        print("Nb of documents", corpus.shape[0])
-        corpus['Title'] = corpus['Title'].apply(str).apply(text_preprocessing)
-        corpus['text'] = corpus['text'].apply(str).apply(text_preprocessing)
-        prev_time = measure_time_step(prev_time)  # Time
-
-        corpus = corpus.loc[:, ['article_ID', 'Title', 'Keywords', 'text', 'category']]
-
-        print("-- Remove word that appear to much or to few :")
-        print(np.unique(np.concatenate(corpus['text'].values)).shape[0])
-        corpus['text'] = filter_out_to_few(corpus['text'])
-        print(np.unique(np.concatenate(corpus['text'].values)).shape[0])
-        prev_time = measure_time_step(prev_time)  # Time
-
-        prev_time = measure_time_step(0, True)  # Time
-        print("-- Train model :")
-        model = train_w2v_model(corpus).wv
-        prev_time = measure_time_step(prev_time)  # Time
-
-        corpus_prep = corpus.copy()
-
-        prev_time = measure_time_step(0, True)  # Time
-
-        print("-- Vectorize :")
-        corpus_prep = vectorize_corpus(corpus_prep, methods=[
-            'w2v', "tfidf", 'tfidf_w2v_concat', 'w2v_tfidf', 'tfidf_w2v_tfidf_concat'
-        ], model=model)
-        prev_time = measure_time_step(prev_time)  # Time
-
-        corpus_prep.to_json("./data/preprocessed_corpus.zip")
-    else:
-        corpus_prep = pd.read_json("./data/preprocessed_corpus.zip")
-    return corpus_prep
