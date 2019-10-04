@@ -27,10 +27,7 @@ def main_assessing(df, model_res, unique_tags_train, parameters):
 
     # Used for robustness
     model_res_test, unique_tags_test = main_modelling(df=corpus_test,
-                                                      max_depth=5,
-                                                      parameters=parameters,
-                                                      max_cluster_by_step=5,
-                                                      min_size_of_a_cluster=11)
+                                                      parameters=parameters)
     # Get updated df
     corpus_train = update_df_with_tags(corpus_train, model_res)
     corpus_test = update_df_with_tags(corpus_test, model_res_test)

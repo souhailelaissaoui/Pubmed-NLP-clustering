@@ -18,7 +18,7 @@ nb_tags = 1
 
 
 ### Main function
-def main_modelling(df, max_depth, parameters, max_cluster_by_step=5, min_size_of_a_cluster=11):
+def main_modelling(df, parameters):
     """
     Main function that calls the recurcive function for the clustering model with the good entry point
 
@@ -32,6 +32,9 @@ def main_modelling(df, max_depth, parameters, max_cluster_by_step=5, min_size_of
     corpus_for_centroid = get_df_for_centroid(df)
     article_ID_list_racine = df.article_ID.to_list()
     col = df.tfidf_features[0]
+    max_depth = parameters["max_depth"]
+    max_cluster_by_step = parameters["max_cluster_by_step"]
+    min_size_of_a_cluster = parameters["min_size_of_a_cluster"]
     model_res = inception_clustering_model(df,
                                            corpus_for_centroid,
                                            article_ID_list_racine,
