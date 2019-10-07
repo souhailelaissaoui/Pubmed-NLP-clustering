@@ -81,6 +81,8 @@ def main_preprocessing(run_preprocessing=False):
         ], model=model)
         prev_time = measure_time_step(prev_time)  # Time
 
+        corpus_prep = corpus_prep[corpus_prep['w2v_tfidf'].apply(lambda x: not(None in x))].reset_index()
+
         corpus_prep.to_json("./data/corpus_prep.zip")
     else:
         corpus_prep = pd.read_json("./data/corpus_prep.zip")
