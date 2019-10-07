@@ -30,7 +30,7 @@ model_res, unique_tags_train = main_modelling(df=corpus, parameters=parameters)
 
 
 #Assessing
-robustness_score, separation_score, relevance_evaluation = main_assessing(corpus, model_res, unique_tags_train, \
+robustness_score, separation_score, relevance_score = main_assessing(corpus, model_res, unique_tags_train, \
                                                                           parameters)
 
 #Print results
@@ -40,8 +40,8 @@ print("robustness_score")
 print(robustness_score)
 print("separation_score")
 print(separation_score)
-print("relevance_evaluation")
-print(relevance_evaluation)
+print("relevance_score")
+print(relevance_score)
 print("Unique tags")
 print(len(unique_tags_train))
 

@@ -38,11 +38,10 @@ def main_assessing(df, model_res, unique_tags_train, parameters):
     # M2: Separation
     t_tests, separation_score = evaluate_separation(corpus_train, unique_tags_train)
 
-    # M3:
-    relevance_evaluation = evaluate_relevance(corpus_train)
+    # M3: Relevance
+    relevance_score = evaluate_relevance(corpus_train)
 
-    # TODO - adapter les outputs de main_assessing
-    return robustness_score, separation_score, relevance_evaluation
+    return robustness_score, separation_score, relevance_score
 
 
 ### Core functions
@@ -114,6 +113,7 @@ def evaluate_separation(df, unique_tags, pvalue_threshold=0.05):
                          columns=vectorizer.get_feature_names())
 
     tag_column = tag_column.apply(lambda x: str(x))
+
     t_test = {}
     for tag in unique_tags:
         # Compute the tfidf for the documents of interest

@@ -5,16 +5,12 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-
 np.random.seed(42)
 ### Constants
 
 column_words = 'text'
 # TODO - P2
 nb_tags = 1
-
-
-
 
 
 ### Main function
@@ -50,9 +46,6 @@ def main_modelling(df, parameters):
     return model_res, unique_tags
 
 
-
-
-
 ### Class definition
 
 class MetaCluster(object):
@@ -69,9 +62,6 @@ class MetaCluster(object):
         for cluster in self.children_clusters:
             ret += cluster.__repr__(level + 1)
         return ret
-
-
-
 
 
 ### Core functions
@@ -205,7 +195,7 @@ def cluster_model(df, method_choice, vector_choice, local_indexes, k_max, k_min=
     if method_choice == "kmeans_model":
         silhouete_scores = []
         # Each row of the matrix is a document and each column a dimension of its vector
-        vector_matrix = np.array(df.loc[df.article_ID.isin(local_indexes),vector_choice].to_list())
+        vector_matrix = np.array(df.loc[df.article_ID.isin(local_indexes), vector_choice].to_list())
         # Finding the best number of cluster
         for k in np.arange(k_min, k_max + 1):
             kmeans = KMeans(n_clusters=k).fit(vector_matrix)
@@ -363,6 +353,5 @@ def update_df_with_tags(df, tree_result):
     df["tags"] = tags
 
     for i in df.index:
-        df.at[i,"tags"] = list(set(list(df.loc[i,"tags"])))
+        df.at[i, "tags"] = list(set(list(df.loc[i, "tags"])))
     return (df)
-
