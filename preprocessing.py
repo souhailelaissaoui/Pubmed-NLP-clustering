@@ -110,15 +110,12 @@ def cleaning_filter(text):
     :param text: abstract
     :return: Pandas Serie True (keep) are False (delete)
     """
-    try:  # A REFAIRE
-        if "StringElement" in text:  # A REVOIR SI EUX L'ONT GARDE
-            text = "badformat"
-            return False
+    try:# A REFAIRE
         if "This article has been retracted" in text:
-            text = "retracted"
+            text ="retracted"
             return False
         if "Cette article" in text:
-            text = "retracted"
+           text ="retracted"
             return False
         if len(text) < 20:
             return False
