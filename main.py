@@ -7,13 +7,13 @@ from assessing import main_assessing
 #Constants
 method = "kmeans_model"
 vector = "tfidf"
-tag_choice = "centroid"
+tag_choice = "tfidf"
 
-parameters = {"method_choice": [method]*8,
-              "vector_choice": [vector]*8,
-              "tag_choice": [tag_choice]*8,
-              "max_depth": 8,
-              "max_cluster_by_step": 8,
+parameters = {"method_choice": [method]*10,
+              "vector_choice": [vector]*10,
+              "tag_choice": [tag_choice]*10,
+              "max_depth": 4,
+              "max_cluster_by_step": 5,
               "min_size_of_a_cluster": 11}
 
 
