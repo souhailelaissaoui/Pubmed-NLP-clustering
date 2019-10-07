@@ -44,16 +44,19 @@ pos_lem = {
 def main_preprocessing(run_preprocessing=False):
     if run_preprocessing:
         corpus = pd.read_csv("./data/corpus.csv")
-        corpus = corpus.drop_duplicates(subset='text').reset_index(drop=True)
 
         print("-- Preprocessing :")
-        prev_time = measure_time_step(0, True)  # Time
+        prev_time = measure_time_step(0, True) # Time
         print("Nb of documents", corpus.shape[0])
         corpus = corpus[corpus['text'].apply(cleaning_filter)].reset_index(drop=True)
         print("Nb of documents", corpus.shape[0])
+        print(" - Manage structured abstract :")
+        corpus['text'] = corpus['text'].apply(str).apply(managed_structured)
+        corpus = corpus.drop_duplicates(subset='text')
+        print(" - Tokenization, Lemming :")
         corpus['Title'] = corpus['Title'].apply(str).apply(text_preprocessing)
         corpus['text'] = corpus['text'].apply(str).apply(text_preprocessing)
-        prev_time = measure_time_step(prev_time)  # Time
+        prev_time = measure_time_step(prev_time) # Time
 
         corpus = corpus.loc[:, ['article_ID', 'Title', 'Keywords', 'text', 'category']]
 
@@ -61,7 +64,7 @@ def main_preprocessing(run_preprocessing=False):
         print(np.unique(np.concatenate(corpus['text'].values)).shape[0])
         corpus['text'] = filter_out_to_few(corpus['text'])
         print(np.unique(np.concatenate(corpus['text'].values)).shape[0])
-        prev_time = measure_time_step(prev_time)  # Time
+        prev_time = measure_time_step(prev_time) # Time
 
         prev_time = measure_time_step(0, True)  # Time
         print("-- Train model :")
@@ -123,6 +126,17 @@ def cleaning_filter(text):
         return False
     return True
 
+def managed_structured(text):
+    """
+    Transform 'StringElement()' text to normal text
+    :param text: text to parse
+    :return: parsed text
+    """
+    text_search = re.search("StringElement\(\\\'(.*?)\\\', attributes=", text)
+    if text_search:
+        return " ".join(title_search.groups())
+    else:
+        return text
 
 def text_preprocessing(text, word_reduction='lemmatization', pos_lem=pos_lem):
     """
