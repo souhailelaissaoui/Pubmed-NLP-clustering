@@ -9,20 +9,20 @@ method = "kmeans_model"
 vector = "tfidf"
 tag_choice = "tfidf"
 
-parameters = {"method_choice": [method]*10,
-              "vector_choice": [vector]*10,
-              "tag_choice": [tag_choice]*10,
+parameters = {"method_choice": [method]*4,
+              "vector_choice": [vector]*4,
+              "tag_choice": [tag_choice]*4,
               "max_depth": 4,
               "max_cluster_by_step": 5,
               "min_size_of_a_cluster": 11}
 
 
 #Load the corpus
-main_loading(run_loading=True)
+main_loading(run_loading=False)
 
 
 #Load the preprocessed data
-corpus = main_preprocessing(run_preprocessing=True)
+corpus = main_preprocessing(run_preprocessing=False)
 
 
 #Model
