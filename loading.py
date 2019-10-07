@@ -36,11 +36,9 @@ def main_loading(run_loading=False):
                                                  if len(row['Keywords']) > 0 else row['Keywords'], axis=1)
 
         nonPunct = re.compile('.*[A-Za-z0-9].*')  # must contain a letter or digit
-        # count number sentences per abstract
-        abstracts['nb_sentences'] = abstracts.apply(lambda row: len(sent_tokenize(row['text_standardized'])) , axis=1)
 
         # construction of df_abstracts
-        df_abstracts = abstracts[['article_ID', 'Title', 'text_standardized', 'list_keywords', 'category', 'nb_sentences', 'nb_words', 'nb_characters']]
+        df_abstracts = abstracts[['article_ID', 'Title', 'text_standardized', 'list_keywords', 'category']]
         df_abstracts.rename(columns={'text_standardized':'text', 'list_keywords':'Keywords'}, inplace=True)
 
         # save abstracts

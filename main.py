@@ -18,11 +18,11 @@ parameters = {"method_choice": [method]*8,
 
 
 #Load the corpus
-main_loading(run_loading=False)
+main_loading(run_loading=True)
 
 
 #Load the preprocessed data
-corpus = main_preprocessing(run_preprocessing=False)
+corpus = main_preprocessing(run_preprocessing=True)
 
 
 #Model
