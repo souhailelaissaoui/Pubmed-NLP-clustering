@@ -115,7 +115,7 @@ def cleaning_filter(text):
             text ="retracted"
             return False
         if "Cette article" in text:
-           text ="retracted"
+            text ="retracted"
             return False
         if len(text) < 20:
             return False
@@ -131,7 +131,7 @@ def managed_structured(text):
     """
     text_search = re.search("StringElement\(\\\'(.*?)\\\', attributes=", text)
     if text_search:
-        return " ".join(title_search.groups())
+        return " ".join(text_search.groups())
     else:
         return text
 
