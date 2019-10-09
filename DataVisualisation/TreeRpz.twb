@@ -1,0 +1,255 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<!-- build 20192.19.0818.2120                               -->
+<workbook original-version='18.1' source-build='2019.2.3 (20192.19.0818.2120)' source-platform='win' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <document-format-change-manifest>
+    <SheetIdentifierTracking ignorable='true' predowngraded='true' />
+    <WindowsPersistSimpleIdentifiers />
+  </document-format-change-manifest>
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <datasources>
+    <datasource caption='tableau_res' inline='true' name='federated.18j9s2g0exrhpk0zyyihj05frmeo' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='tableau_res' name='textscan.1gdlg0a1ozcf2f13opx6t0pa55c1'>
+            <connection class='textscan' directory='D:/0 - Boulot/5 - X4/04. Quinten/Pubmed-NLP-clustering' filename='tableau_res.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.1gdlg0a1ozcf2f13opx6t0pa55c1' name='tableau_res.csv' table='[tableau_res#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='fr_FR' separator=';'>
+            <column datatype='string' name='Node_name_1' ordinal='0' />
+            <column datatype='string' name='Node_name_2' ordinal='1' />
+            <column datatype='string' name='Node_name_3' ordinal='2' />
+            <column datatype='string' name='Node_name_4' ordinal='3' />
+            <column datatype='string' name='Article_ID_List' ordinal='4' />
+            <column datatype='integer' name='Node_number_1' ordinal='5' />
+            <column datatype='integer' name='Node_number_2' ordinal='6' />
+            <column datatype='integer' name='Node_number_3' ordinal='7' />
+            <column datatype='integer' name='Node_number_4' ordinal='8' />
+          </columns>
+        </relation>
+        <metadata-records>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[tableau_res.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;fr_FR&quot;</attribute>
+              <attribute datatype='string' name='currency'>&quot;€&quot;</attribute>
+              <attribute datatype='string' name='debit-close-char'>&quot;&quot;</attribute>
+              <attribute datatype='string' name='debit-open-char'>&quot;&quot;</attribute>
+              <attribute datatype='string' name='decimal-char'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;;&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;fr_FR&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+              <attribute datatype='string' name='thousands-char'>&quot; &quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Node_name_1</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Node_name_1]</local-name>
+            <parent-name>[tableau_res.csv]</parent-name>
+            <remote-alias>Node_name_1</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LFR_RFR' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Node_name_2</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Node_name_2]</local-name>
+            <parent-name>[tableau_res.csv]</parent-name>
+            <remote-alias>Node_name_2</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LFR_RFR' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Node_name_3</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Node_name_3]</local-name>
+            <parent-name>[tableau_res.csv]</parent-name>
+            <remote-alias>Node_name_3</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LFR_RFR' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Node_name_4</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Node_name_4]</local-name>
+            <parent-name>[tableau_res.csv]</parent-name>
+            <remote-alias>Node_name_4</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LFR_RFR' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Article_ID_List</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Article_ID_List]</local-name>
+            <parent-name>[tableau_res.csv]</parent-name>
+            <remote-alias>Article_ID_List</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LFR_RFR' />
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Node_number_1</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Node_number_1]</local-name>
+            <parent-name>[tableau_res.csv]</parent-name>
+            <remote-alias>Node_number_1</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Node_number_2</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Node_number_2]</local-name>
+            <parent-name>[tableau_res.csv]</parent-name>
+            <remote-alias>Node_number_2</remote-alias>
+            <ordinal>6</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Node_number_3</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Node_number_3]</local-name>
+            <parent-name>[tableau_res.csv]</parent-name>
+            <remote-alias>Node_number_3</remote-alias>
+            <ordinal>7</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Node_number_4</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Node_number_4]</local-name>
+            <parent-name>[tableau_res.csv]</parent-name>
+            <remote-alias>Node_number_4</remote-alias>
+            <ordinal>8</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column caption='Article ID List' datatype='string' name='[Article_ID_List]' role='dimension' type='nominal' />
+      <column caption='Node name 1' datatype='string' name='[Node_name_1]' role='dimension' type='nominal' />
+      <column caption='Node name 2' datatype='string' name='[Node_name_2]' role='dimension' type='nominal' />
+      <column caption='Node name 3' datatype='string' name='[Node_name_3]' role='dimension' type='nominal' />
+      <column caption='Node name 4' datatype='string' name='[Node_name_4]' role='dimension' type='nominal' />
+      <column caption='Node number 1' datatype='integer' name='[Node_number_1]' role='measure' type='quantitative' />
+      <column caption='Node number 2' datatype='integer' name='[Node_number_2]' role='measure' type='quantitative' />
+      <column caption='Node number 3' datatype='integer' name='[Node_number_3]' role='measure' type='quantitative' />
+      <column caption='Node number 4' datatype='integer' name='[Node_number_4]' role='measure' type='quantitative' />
+      <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
+        <calculation class='tableau' formula='1' />
+      </column>
+      <layout dim-ordering='alphabetic' dim-percentage='0.5' measure-ordering='alphabetic' measure-percentage='0.5' show-structure='true' />
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;France&quot;' />
+      </semantic-values>
+      <date-options start-of-week='monday' />
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name='Sheet 1'>
+      <table>
+        <view>
+          <datasources />
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+          </pane>
+        </panes>
+        <rows />
+        <cols />
+      </table>
+      <simple-id uuid='{C4A30802-23E0-4A81-8A06-04E2B916BAF7}' />
+    </worksheet>
+  </worksheets>
+  <windows saved-dpi-scale-factor='1.25' source-height='37'>
+    <window class='worksheet' maximized='true' name='Sheet 1'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{D3BAF2F4-AB45-4AED-A04A-91577B11D067}' />
+    </window>
+  </windows>
+  <thumbnails>
+    <thumbnail height='192' name='Sheet 1' width='192'>
+      iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAACXBIWXMAABJ0AAASdAHeZh94
+      AAACFUlEQVR4nO3TMQEAIAzAMMC/5yFjRxMFfXpnZg5Eve0A2GQA0gxAmgFIMwBpBiDNAKQZ
+      gDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFI
+      MwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQD
+      kGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBp
+      BiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA
+      0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDN
+      AKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxA
+      mgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZ
+      gDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFI
+      MwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKR9Y+0F
+      fBUOM1sAAAAASUVORK5CYII=
+    </thumbnail>
+  </thumbnails>
+</workbook>
